@@ -1,4 +1,5 @@
 <script setup></script>
 <template>
-  Game
+  <p>[PLOT DESCRIPTION HERE]</p>
+  <input type="text">
 </template>

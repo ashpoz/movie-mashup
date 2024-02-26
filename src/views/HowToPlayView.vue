@@ -1,4 +1,8 @@
 <script setup></script>
 <template>
-  How to play
+  <main>
+    <div>
+      how
+    </div>
+  </main>
 </template>
