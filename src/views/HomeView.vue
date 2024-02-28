@@ -2,7 +2,11 @@
 
 <style scoped>
   main {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr;
+    @media (min-width: 768px) {
+      gap: 2rem;
+      grid-template-columns: 1fr 1fr;
+    }
   }
 </style>
 
@@ -15,8 +19,8 @@
       <router-link to="/game" class="btn">Play</router-link>
       <router-link to="/game/how-to-play" class="btn">How to Play</router-link>
     </div>
-    <div>
+    <figure>
       <img src="https://placehold.co/400x600" alt="">
-    </div>
+    </figure>
   </main>
 </template>
