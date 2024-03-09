@@ -1,4 +1,17 @@
-<script setup></script>
+
+<script setup>
+import {ref} from 'vue';
+
+import { getRandomMovie } from '../lib/getRandomMovie';
+
+const randomMovie = getRandomMovie();
+const movieSynopsis = randomMovie?.synopsis;
+
+let answer = ref(null)
+
+// TODO starting to hook up dummy data and form functionality 
+
+</script>
 <style scoped>
 main {
   grid-template-columns: 1fr;
@@ -43,13 +56,12 @@ button {
       <form>
         <fieldset>
           <legend>What is the movie?</legend>
+          <pre>Answer: {{ randomMovie.answer }}</pre>
           <label>Plot Synopsis:</label>
           <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Numquam, veritatis similique.
-            Corrupti ea voluptatem accusantium. Doloribus, nesciunt delectus similique eligendi
-            dolores ducimus dignissimos necessitatibus ut nulla minus nobis quidem expedita?
+            {{movieSynopsis}}
           </p>
-          <input type="text" />
+          <input ref="answer" type="text" />
           <button type="submit">Enter</button>
         </fieldset>
       </form>
