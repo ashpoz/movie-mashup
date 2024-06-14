@@ -1,15 +1,21 @@
 
 <script setup>
-import {ref} from 'vue';
-
+import { ref } from 'vue'
 import { getRandomMovie } from '../lib/getRandomMovie';
 
 const randomMovie = getRandomMovie();
 const movieSynopsis = randomMovie?.synopsis;
-
-let answer = ref(null)
+const form = ref([]);
 
 // TODO starting to hook up dummy data and form functionality 
+function submit() {
+  console.log(form.value.movie1)
+  console.log(form.value.movie2)
+}
+
+function searchMovie() {
+  // TODO: use TMDB API to search for a movie based on the query
+}
 
 </script>
 <style scoped>
@@ -53,7 +59,7 @@ button {
   <main>
     <section>
       <h1>Movie Mashup Game</h1>
-      <form>
+      <form @submit.prevent="submit">
         <fieldset>
           <legend>What is the movie?</legend>
           <pre>Answer: {{ randomMovie.answer }}</pre>
@@ -61,7 +67,10 @@ button {
           <p>
             {{movieSynopsis}}
           </p>
-          <input ref="answer" type="text" />
+          <label for="movie1">1st Movie</label>
+          <input type="text" v-model="form.movie1" required />
+          <label for="movie2">1st Movie</label>
+          <input type="text" v-model="form.movie2" required />          
           <button type="submit">Enter</button>
         </fieldset>
       </form>
