@@ -17,6 +17,8 @@ function searchMovie() {
   // TODO: use TMDB API to search for a movie based on the query
 }
 
+
+
 </script>
 <style scoped>
 main {
