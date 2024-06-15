@@ -9,6 +9,9 @@ const randomMovie = getRandomMovie();
 const movieSynopsis = randomMovie?.synopsis;
 const form = ref([]);
 const movieResults = ref([]);
+const movieResultsEl1 = ref(null);
+const movieResultsEl2 = ref(null);
+
 
 const debouncedSearch = useDebounceFn((query, event) => {
   searchMovie(query, event)
@@ -75,6 +78,25 @@ fieldset {
   padding: 2rem;
 }
 
+ul {
+  background-color: #fff;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  display: none;
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  color: #000;
+  cursor: pointer;
+  font-size: 0.75em;
+  padding: .25rem 2rem;
+  &:hover {
+    background-color: lightgray;
+  }
+}
+
 legend {
   font-weight: bold;
 }
@@ -108,17 +130,15 @@ button {
             {{ movieSynopsis }}
           </p>
           <label for="movie1">1st Movie</label>
-          <input @keyup="debouncedSearch(form.movie1, $event)" type="text" name="movie1" v-model="form.movie1" required />
-          <p>Results:</p>
-          <ul>
-            <li v-for="movie in movieResults.movie1" :key="movie.id">
+          <input @keyup="debouncedSearch(form.movie1, $event)" @focus="movieResultsEl1.style.display = 'block'" @blur="movieResultsEl1.style.display = 'none'" type="text" name="movie1" v-model="form.movie1" required />
+          <ul ref="movieResultsEl1">
+            <li @click="form.movie1 = $event.target.textContent" v-for="movie in movieResults.movie1" :key="movie.id">
               {{ movie.title }}
             </li>
           </ul>
           <label for="movie2">2nd Movie</label>
-          <input @keyup="debouncedSearch(form.movie2, $event)" type="text" name="movie2" v-model="form.movie2" required />
-          <p>Results:</p>
-          <ul>
+          <input @keyup="debouncedSearch(form.movie2, $event)" @focus="movieResultsEl2.style.display = 'block'" @blur="movieResultsEl2.style.display = 'none'" type="text" name="movie2" v-model="form.movie2" required />
+          <ul ref="movieResultsEl2">
             <li v-for="movie in movieResults.movie2" :key="movie.id">
               {{ movie.title }}
             </li>
