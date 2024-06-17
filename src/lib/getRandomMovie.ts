@@ -1,4 +1,4 @@
-import movies from '../data/movies.json';
+import movies from '../data/movies';
 
 export function getRandomMovie() {
   // TODO: set up with API

@@ -1,4 +1,4 @@
-[
+const movieData = [
   {
     "id": 1,
     "answer": "Apocalypse Now and Then",
@@ -30,7 +30,7 @@
     "sharedWord": "Father",
     "movies": [
       {
-        "title": "Godfather",
+        "title": "The Godfather",
         "year": "",
         "image": {
           "alt": "",
@@ -50,3 +50,5 @@
     "hints": []
   }
 ]
+
+export default movieData; 

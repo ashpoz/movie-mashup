@@ -1,7 +1,8 @@
 <script setup>
-import { ref, reactive } from 'vue'
-import { getRandomMovie } from '../lib/getRandomMovie';
+import { ref } from 'vue'
+import { getRandomMovie } from '../lib/getRandomMovie'
 import { useDebounceFn } from '@vueuse/core'
+import answers from '../data/movies.js'
 
 // TODO: Show results in clickable dropdown list
 
@@ -11,15 +12,26 @@ const form = ref([]);
 const movieResults = ref([]);
 const movieResultsEl1 = ref(null);
 const movieResultsEl2 = ref(null);
-
-
+ 
 const debouncedSearch = useDebounceFn((query, event) => {
   searchMovie(query, event)
 }, 1000);
 
-function submit() {
-  console.log(form.value.movie1)
-  console.log(form.value.movie2)
+async function submit() {
+  let match = [false, false];
+  answers.forEach(answer => {
+    const movie1 = (answer.movies[0].title).toLowerCase();
+    const movie2 = (answer.movies[1].title).toLowerCase();
+    console.log(movie1)
+    console.log(movie2)
+    if (movie1 === (form.value.movie1).toLowerCase()) {
+      match[0] = true;
+    }
+    if (movie2 === (form.value.movie2).toLowerCase()) {
+      match[1] = true;
+    }
+  })
+  console.log(match)
 }
 
 async function searchMovie(query, event) {
@@ -39,8 +51,6 @@ async function searchMovie(query, event) {
     const data = (await searchMovie).json();
     const response = await data;
     const results = await response.results;
-
-    // console.log(results);
 
     const movies = results.map(item => (
       { id: item.id, title: item.title, release_date: item.release_date }
