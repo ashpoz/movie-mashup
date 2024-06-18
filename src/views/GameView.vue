@@ -1,29 +1,18 @@
 <script setup>
 import { ref } from 'vue'
 import { getRandomMovie } from '../lib/getRandomMovie'
-import { useDebounceFn } from '@vueuse/core'
 import answers from '../data/movies.js'
-
-// TODO: Show results in clickable dropdown list
+import MovieInput from '../components/MovieInput.vue'
 
 const randomMovie = getRandomMovie();
 const movieSynopsis = randomMovie?.synopsis;
 const form = ref([]);
-const movieResults = ref([]);
-const movieResultsEl1 = ref(null);
-const movieResultsEl2 = ref(null);
- 
-const debouncedSearch = useDebounceFn((query, event) => {
-  searchMovie(query, event)
-}, 1000);
 
 async function submit() {
   let match = [false, false];
   answers.forEach(answer => {
     const movie1 = (answer.movies[0].title).toLowerCase();
     const movie2 = (answer.movies[1].title).toLowerCase();
-    console.log(movie1)
-    console.log(movie2)
     if (movie1 === (form.value.movie1).toLowerCase()) {
       match[0] = true;
     }
@@ -31,38 +20,20 @@ async function submit() {
       match[1] = true;
     }
   })
-  console.log(match)
+  console.log(validateAnswers(match))
 }
 
-async function searchMovie(query, event) {
-  const inputName = event?.target.name
-
-  const options = {
-    method: 'GET',
-    headers: {
-      accept: 'application/json',
-      Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhOTg2YWVlYmRhOWM4NzVjZTQ5ZTA2YTJmZDhjOTlmNSIsInN1YiI6IjYyNTVmZDgwMmRkYTg5MDA2NmU4NzBiYyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.BGjP8czC9gE31X7jpxE-pQBgCKEQ7p9BxEPw7Pc17Dc'
-    }
-  };
-
-  const searchMovie = fetch(`https://api.themoviedb.org/3/search/movie?query=${decodeURIComponent(query)}&include_adult=false&language=en-US&page=1`, options);
-
-  try {
-    const data = (await searchMovie).json();
-    const response = await data;
-    const results = await response.results;
-
-    const movies = results.map(item => (
-      { id: item.id, title: item.title, release_date: item.release_date }
-    ))
-    movieResults.value[inputName] = movies;
-    console.log(movieResults.value);
-  } catch (err) {
-    console.error(err);
+function validateAnswers(arr) {
+  if (arr[0] && !arr[1]) {
+    return 'Your 1st guess is correct!'
+  } else if (!arr[0] && arr[1]) {
+    return 'Your 2nd guess is correct!'
+  } else if (arr[0] && arr[1]) {
+    return 'You got it!'
+  } else {
+    return 'Whoops, try again!'
   }
 }
-
-
 </script>
 <style scoped>
 main {
@@ -88,25 +59,6 @@ fieldset {
   padding: 2rem;
 }
 
-ul {
-  background-color: #fff;
-  border-bottom-left-radius: 5px;
-  border-bottom-right-radius: 5px;
-  display: none;
-  list-style: none;
-  padding: 0;
-}
-
-li {
-  color: #000;
-  cursor: pointer;
-  font-size: 0.75em;
-  padding: .25rem 2rem;
-  &:hover {
-    background-color: lightgray;
-  }
-}
-
 legend {
   font-weight: bold;
 }
@@ -115,12 +67,6 @@ label {
   font-size: 0.75em;
   font-weight: bold;
   text-decoration: underline;
-}
-
-input {
-  margin-top: 2rem;
-  padding: 1rem 2rem;
-  width: 100%;
 }
 
 button {
@@ -140,19 +86,9 @@ button {
             {{ movieSynopsis }}
           </p>
           <label for="movie1">1st Movie</label>
-          <input @keyup="debouncedSearch(form.movie1, $event)" @focus="movieResultsEl1.style.display = 'block'" @blur="movieResultsEl1.style.display = 'none'" type="text" name="movie1" v-model="form.movie1" required />
-          <ul ref="movieResultsEl1">
-            <li @click="form.movie1 = $event.target.textContent" v-for="movie in movieResults.movie1" :key="movie.id">
-              {{ movie.title }}
-            </li>
-          </ul>
+          <MovieInput name="movie1" />
           <label for="movie2">2nd Movie</label>
-          <input @keyup="debouncedSearch(form.movie2, $event)" @focus="movieResultsEl2.style.display = 'block'" @blur="movieResultsEl2.style.display = 'none'" type="text" name="movie2" v-model="form.movie2" required />
-          <ul ref="movieResultsEl2">
-            <li v-for="movie in movieResults.movie2" :key="movie.id">
-              {{ movie.title }}
-            </li>
-          </ul>
+          <MovieInput name="movie2" />
           <p>Answers:</p>
           <pre>{{ form.movie1 }}</pre>
           <pre>{{ form.movie2 }}</pre>

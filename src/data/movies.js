@@ -13,7 +13,7 @@ const movieData = [
         }
       },
       {
-        "title": "Now & Then",
+        "title": "Now and Then",
         "year": "",
         "image": {
           "alt": "",
