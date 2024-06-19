@@ -8,15 +8,13 @@ const props = defineProps({
 
 const movieValue = ref(null)
 const movieResults = ref([]);
-const movieResultsEl = ref(null);
+const isDropdownActive = ref(false);
 
-const debouncedSearch = useDebounceFn((query, event) => {
-  searchMovie(query, event)
+const debouncedSearch = useDebounceFn((query) => {
+  searchMovie(query)
 }, 1000);
 
-async function searchMovie(query, event) {
-  const inputName = event?.target.name
-
+async function searchMovie(query) {
   const options = {
     method: 'GET',
     headers: {
@@ -31,11 +29,11 @@ async function searchMovie(query, event) {
     const data = (await searchMovie).json();
     const response = await data;
     const results = await response.results;
-
     const movies = results.map(item => (
       { id: item.id, title: item.title, release_date: item.release_date }
     ))
-    movieResults.value[inputName] = movies;
+    movieResults.value[props.name] = movies;
+    console.log(movieResults.value)
   } catch (err) {
     console.error(err);
   }
@@ -51,7 +49,6 @@ ul {
   background-color: #fff;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
-  display: none;
   list-style: none;
   padding: 0;
 }
@@ -67,10 +64,10 @@ li {
 }
 </style>
 <template>
-  <input @keyup="debouncedSearch(movieValue, $event)" @focus="movieResultsEl.style.display = 'block'" type="text"
+  <input @keyup="debouncedSearch(movieValue, $event)" @focus="isDropdownActive = true" @blur="isDropdownActive = false" type="text"
     :name="props.name" v-model="movieValue" required />
-  <ul ref="movieResultsEl">
-    <li @click="movieValue = $event.target.textContent" v-for="movie in movieResults" :key="movie.id">
+  <ul v-show="isDropdownActive">
+    <li @mousedown="movieValue = $event.target.textContent" v-for="movie in movieResults[props.name]" :key="movie.id">
       {{ movie.title }}
     </li>
   </ul>

@@ -7,20 +7,28 @@ import MovieInput from '../components/MovieInput.vue'
 const randomMovie = getRandomMovie();
 const movieSynopsis = randomMovie?.synopsis;
 const form = ref([]);
+const correctAnswers = ref([false, false])
 
-async function submit() {
-  let match = [false, false];
+async function submit(e) {
+  const formData = new FormData(e.target)
+  let formValues = [];
+
+  for (const [inputName, value] of formData) {
+    formValues.push({inputName, value})
+  }
   answers.forEach(answer => {
     const movie1 = (answer.movies[0].title).toLowerCase();
     const movie2 = (answer.movies[1].title).toLowerCase();
-    if (movie1 === (form.value.movie1).toLowerCase()) {
-      match[0] = true;
+
+    if (movie1 === (formValues[0].value).toLowerCase()) {
+      correctAnswers.value[0] = true;
     }
-    if (movie2 === (form.value.movie2).toLowerCase()) {
-      match[1] = true;
+
+    if (movie2 === (formValues[1].value).toLowerCase()) {
+      correctAnswers.value[1] = true;
     }
   })
-  console.log(validateAnswers(match))
+  console.log(validateAnswers(correctAnswers.value))
 }
 
 function validateAnswers(arr) {
