@@ -3,11 +3,19 @@ import { ref } from 'vue'
 import { getRandomMovie } from '../lib/getRandomMovie'
 import answers from '../data/movies.js'
 import MovieInput from '../components/MovieInput.vue'
+import ErrorMessage from '../components/ErrorMessage.vue'
 
 const randomMovie = getRandomMovie();
 const movieSynopsis = randomMovie?.synopsis;
-const form = ref([]);
 const correctAnswers = ref([false, false])
+const isGameWon = ref(false)
+const formMessage = ref(null)
+
+// add some err styling
+
+// if one is correct, highlight green and the other red
+// if both are incorect, highlight red
+// if both correct, hide form and show game is won view
 
 async function submit(e) {
   const formData = new FormData(e.target)
@@ -28,18 +36,23 @@ async function submit(e) {
       correctAnswers.value[1] = true;
     }
   })
-  console.log(validateAnswers(correctAnswers.value))
+
+  // if all arr vals are true, game is won
+  isGameWon.value = correctAnswers.value.every(value => value === true)
+
+  // update message
+  generateMessage(correctAnswers.value)
 }
 
-function validateAnswers(arr) {
+function generateMessage(arr) {
   if (arr[0] && !arr[1]) {
-    return 'Your 1st guess is correct!'
+    formMessage.value = 'Your 1st guess is correct!'
   } else if (!arr[0] && arr[1]) {
-    return 'Your 2nd guess is correct!'
+    formMessage.value = 'Your 2nd guess is correct!'
   } else if (arr[0] && arr[1]) {
-    return 'You got it!'
+    formMessage.value = 'You got it!'
   } else {
-    return 'Whoops, try again!'
+    formMessage.value = 'Whoops, try again!'
   }
 }
 </script>
@@ -85,7 +98,7 @@ button {
   <main>
     <section>
       <h1>Movie Mashup Game</h1>
-      <form @submit.prevent="submit">
+      <form v-show="!isGameWon" @submit.prevent="submit">
         <fieldset>
           <legend>What is the movie?</legend>
           <pre>Answer: {{ randomMovie.answer }}</pre>
@@ -97,12 +110,15 @@ button {
           <MovieInput name="movie1" />
           <label for="movie2">2nd Movie</label>
           <MovieInput name="movie2" />
-          <p>Answers:</p>
-          <pre>{{ form.movie1 }}</pre>
-          <pre>{{ form.movie2 }}</pre>
+
+          <ErrorMessage v-show="formMessage" :message="formMessage" />
+
           <button type="submit">Enter</button>
         </fieldset>
       </form>
+      <div v-show="isGameWon">
+        <p>{{ formMessage }}</p>
+      </div>
     </section>
   </main>
 </template>
