@@ -1,8 +1,6 @@
 <script setup></script>
 <template>
   <main>
-    <div>
-      how
-    </div>
+    <h1>How to Play</h1>
   </main>
 </template>

@@ -4,6 +4,7 @@ import { useDebounceFn } from '@vueuse/core'
 
 const props = defineProps({
   name: { type: String },
+  valid: { type: String }
 })
 
 const movieValue = ref(null)
@@ -40,8 +41,11 @@ async function searchMovie(query) {
 }
 </script>
 <style scoped>
+div {
+  position: relative;
+}
 input {
-  margin-top: 2rem;
+  margin-top: 0.5rem;
   padding: 1rem 2rem;
   width: 100%;
 }
@@ -49,8 +53,16 @@ ul {
   background-color: #fff;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
+  max-height: 200px;
+  left: 0;
   list-style: none;
+  margin-top: 0.5rem;
+  overflow-y: scroll;
+  position: absolute;
+  top: 52px;
   padding: 0;
+  width: 100%;
+  z-index: 1;
 }
 
 li {
@@ -64,11 +76,13 @@ li {
 }
 </style>
 <template>
-  <input @keyup="debouncedSearch(movieValue, $event)" @focus="isDropdownActive = true" @blur="isDropdownActive = false" type="text"
-    :name="props.name" v-model="movieValue" required />
-  <ul v-show="isDropdownActive">
-    <li @mousedown="movieValue = $event.target.textContent" v-for="movie in movieResults[props.name]" :key="movie.id">
-      {{ movie.title }}
-    </li>
-  </ul>
+  <div>
+    <input @keyup="debouncedSearch(movieValue, $event)" @focus="isDropdownActive = true" @blur="isDropdownActive = false" type="text"
+      :name="props.name" v-model="movieValue" required :class="props.valid ? 'correct' : 'incorrect'" />
+    <ul v-show="isDropdownActive">
+      <li @mousedown="movieValue = $event.target.textContent" v-for="movie in movieResults[props.name]" :key="movie.id">
+        {{ movie.title }}
+      </li>
+    </ul>
+  </div>
 </template>
