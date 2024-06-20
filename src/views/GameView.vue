@@ -113,9 +113,9 @@ button {
           <p>
             {{ movieSynopsis }}
           </p>
-          <label for="movie1">1st Movie</label>
+          <label for="movie1">1st Movie:</label>
           <MovieInput name="movie1" ref="input1" :valid="correctAnswers[0]" />
-          <label for="movie2">2nd Movie</label>
+          <label for="movie2">2nd Movie:</label>
           <MovieInput name="movie2" ref="input2" :valid="correctAnswers[1]" />
 
           <ErrorMessage v-show="formMessage" :message="formMessage" />
