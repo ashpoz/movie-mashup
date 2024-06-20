@@ -10,7 +10,9 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "@netlify/functions": "^2.7.0",
     "@vueuse/core": "^10.11.0",
+    "netlify-cli": "^17.29.0",
     "vue": "^3.4.19",
     "vue-router": "^4.2.4"
   },
