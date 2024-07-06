@@ -12,10 +12,10 @@ export default async (req: Request, context: Context) => {
     }
   };
 
-  const searchMovie = fetch(`https://api.themoviedb.org/3/search/movie?query=${decodeURIComponent(query)}&include_adult=false&language=en-US&page=1`, options);
+  const searchMovie = await fetch(`https://api.themoviedb.org/3/search/movie?query=${decodeURIComponent(query)}&include_adult=false&language=en-US&page=1`, options);
 
   try {
-    const data = (await searchMovie).json();
+    const data = searchMovie.json();
     const response = await data;
     const results = await response.results;
     const movies = results.map((item: { id: String; title: String; release_date: String; }) => (
