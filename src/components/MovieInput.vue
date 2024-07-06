@@ -16,25 +16,12 @@ const debouncedSearch = useDebounceFn((query) => {
 }, 1000);
 
 async function searchMovie(query) {
-  const options = {
-    method: 'GET',
-    headers: {
-      accept: 'application/json',
-      Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhOTg2YWVlYmRhOWM4NzVjZTQ5ZTA2YTJmZDhjOTlmNSIsInN1YiI6IjYyNTVmZDgwMmRkYTg5MDA2NmU4NzBiYyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.BGjP8czC9gE31X7jpxE-pQBgCKEQ7p9BxEPw7Pc17Dc'
-    }
-  };
-
-  const searchMovie = fetch(`https://api.themoviedb.org/3/search/movie?query=${decodeURIComponent(query)}&include_adult=false&language=en-US&page=1`, options);
+  const searchMovie = fetch(`http://localhost:8888/.netlify/functions/search-movie?query=${query}`);
 
   try {
     const data = (await searchMovie).json();
-    const response = await data;
-    const results = await response.results;
-    const movies = results.map(item => (
-      { id: item.id, title: item.title, release_date: item.release_date }
-    ))
-    movieResults.value[props.name] = movies;
-    console.log(movieResults.value)
+    movieResults.value[props.name] = await data;
+    console.log(data)
   } catch (err) {
     console.error(err);
   }
