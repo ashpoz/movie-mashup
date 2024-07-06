@@ -16,7 +16,7 @@ const debouncedSearch = useDebounceFn((query) => {
 }, 1000);
 
 async function searchMovie(query) {
-  const searchMovie = fetch(`http://localhost:8888/.netlify/functions/search-movie?query=${query}`);
+  const searchMovie = fetch(`/.netlify/functions/search-movie?query=${query}`);
 
   try {
     const data = (await searchMovie).json();
