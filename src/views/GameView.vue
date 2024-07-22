@@ -101,32 +101,50 @@ label {
 button {
   margin-top: 2rem;
 }
+
+#gameWon {
+  display: grid;
+}
+
+@media (min-width: 768px) {
+  #gameWon {
+    grid-template-columns: 1fr 1fr;
+  }
+}
 </style>
 <template>
   <main>
     <section>
-      <h1>Movie Mashup Game</h1>
-      <form v-show="!isGameWon" @submit.prevent="submit" ref="form">
-        <fieldset>
-          <legend>What is the movie?</legend>
-          <label>Plot Synopsis:</label>
-          <p>
-            {{ movieSynopsis }}
-          </p>
-          <label for="movie1">1st Movie:</label>
-          <MovieInput name="movie1" ref="input1" :valid="correctAnswers[0]" />
-          <label for="movie2">2nd Movie:</label>
-          <MovieInput name="movie2" ref="input2" :valid="correctAnswers[1]" />
-
-          <ErrorMessage v-show="formMessage" :message="formMessage" />
-
-          <button type="submit" class="btn">Enter</button>
-        </fieldset>
-      </form>
-      <div v-show="isGameWon">
-        <p>{{ formMessage }}</p>
-        <div class="btn-group">
-          <a href="/game" class="btn">Play Again</a>
+      <div id="gameForm">
+        <h1>Movie Mashup Game</h1>
+        <form v-show="!isGameWon" @submit.prevent="submit" ref="form">
+          <fieldset>
+            <legend>What is the movie?</legend>
+            <label>Plot Synopsis:</label>
+            <p>
+              {{ movieSynopsis }}
+            </p>
+            <label for="movie1">1st Movie:</label>
+            <MovieInput name="movie1" ref="input1" :valid="correctAnswers[0]" />
+            <label for="movie2">2nd Movie:</label>
+            <MovieInput name="movie2" ref="input2" :valid="correctAnswers[1]" />
+  
+            <ErrorMessage v-show="formMessage" :message="formMessage" />
+  
+            <button type="submit" class="btn">Enter</button>
+          </fieldset>
+        </form>
+      </div>
+      <div id="gameWon" v-show="isGameWon">
+        <div>
+          <p>{{ formMessage }}</p>
+          <div class="btn-group">
+            <a href="/game" class="btn">Play Again</a>
+          </div>
+        </div>
+        <div>
+          <img src="" alt="Movie Poster 1">
+          <img src="" alt="Movie Poster 2">
         </div>
       </div>
     </section>
