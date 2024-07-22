@@ -1,5 +1,12 @@
 import type { Context } from '@netlify/functions'
 
+interface MovieResult {
+  id: String; 
+  title: String; 
+  release_date: String; 
+  poster_path: String;
+}
+
 export default async (req: Request, context: Context) => {
   const queryParam = new URL(req.url).searchParams.get('query');
   const query = queryParam ? queryParam : '';
@@ -18,8 +25,8 @@ export default async (req: Request, context: Context) => {
     const data = searchMovie.json();
     const response = await data;
     const results = await response.results;
-    const movies = results.map((item: { id: String; title: String; release_date: String; }) => (
-      { id: item.id, title: item.title, release_date: item.release_date }
+    const movies = results.map((item: MovieResult) => (
+      { id: item.id, title: item.title, release_date: item.release_date, poster_path: item.poster_path }
     ))
     return Response.json(movies);
   } catch (err) {
