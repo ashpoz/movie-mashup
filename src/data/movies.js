@@ -6,18 +6,18 @@ const movieData = [
     "movies": [
       {
         "title": "Apocalypse Now",
-        "year": "",
+        "year": "1979",
         "image": {
-          "alt": "",
-          "url": ""
+          "alt": "Apocalypse Now movie poster",
+          "url": "https://image.tmdb.org/t/p/original/gQB8Y5RCMkv2zwzFHbUJX3kAhvA.jpg"
         }
       },
       {
         "title": "Now and Then",
-        "year": "",
+        "year": "1995",
         "image": {
-          "alt": "",
-          "url": ""
+          "alt": "Now and Then movie poster.",
+          "url": "https://image.tmdb.org/t/p/original/q31Ks8oAmM4Nq2CcGjyYYpdBAmh.jpg"
         }
       }
     ],
@@ -31,18 +31,18 @@ const movieData = [
     "movies": [
       {
         "title": "The Godfather",
-        "year": "",
+        "year": "1972",
         "image": {
-          "alt": "",
-          "url": ""
+          "alt": "The Godfather movie poster.",
+          "url": "https://image.tmdb.org/t/p/original/3bhkrj58Vtu7enYsRolD1fZdja1.jpg"
         }
       },
       {
         "title": "Father of the Bride",
-        "year": "",
+        "year": "1991",
         "image": {
-          "alt": "",
-          "url": ""
+          "alt": "Father of the Bride movie poster.",
+          "url": "https://image.tmdb.org/t/p/original/g6OTK7l6EX2JP5r00O5fG6BZJlh.jpg"
         }
       }
     ],
@@ -51,23 +51,23 @@ const movieData = [
   },
   {
     "id": 3,
-    "answer": "Airbud",
+    "answer": "Con Air Bud",
     "sharedWord": "Air",
     "movies": [
       {
         "title": "Con Air",
-        "year": "",
+        "year": "1997",
         "image": {
-          "alt": "",
-          "url": ""
+          "alt": "Con Air movie poster.",
+          "url": "https://image.tmdb.org/t/p/original/kOKjgrEzGOP92rVQ6srA9jtp60l.jpg"
         }
       },
       {
         "title": "Air Bud",
-        "year": "",
+        "year": "1997",
         "image": {
-          "alt": "",
-          "url": ""
+          "alt": "Air Bud movie poster.",
+          "url": "https://image.tmdb.org/t/p/original/kDfzh6QdX2tseTwwyB7lp2RP7iE.jpg"
         }
       }
     ],
