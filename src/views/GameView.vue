@@ -1,16 +1,22 @@
 <script setup>
+import { useRouter } from 'vue-router'
 import { ref } from 'vue'
 import { getRandomMovie } from '../lib/getRandomMovie'
 import answers from '../data/movies.js'
 import MovieInput from '../components/MovieInput.vue'
 import ErrorMessage from '../components/ErrorMessage.vue'
 
+const router = useRouter()
 const randomMovie = getRandomMovie();
 const movieSynopsis = randomMovie?.synopsis;
 const correctAnswers = ref([false, false])
 const isGameWon = ref(false)
 const formMessage = ref(null)
 const form = ref()
+
+const refreshPage = () => {
+  router.go(0)
+}
 
 // add some err styling
 // if one is correct, highlight green and the other red
@@ -57,6 +63,7 @@ function validateAnswers(arr) {
     formMessage.value = 'Whoops, try again!'
   }
 }
+
 
 </script>
 <style scoped>
@@ -139,12 +146,12 @@ button {
         <div>
           <p>{{ formMessage }}</p>
           <div class="btn-group">
-            <router-link to="/game" class="btn">Play Again</router-link>
+            <button @click="refreshPage" class="btn">Play Again</button>
           </div>
         </div>
         <div>
-          <img src="" alt="Movie Poster 1">
-          <img src="" alt="Movie Poster 2">
+          <img src="" alt="Movie Poster 1" />
+          <img src="" alt="Movie Poster 2" />
         </div>
       </div>
     </section>
