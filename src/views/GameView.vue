@@ -139,7 +139,7 @@ button {
         <div>
           <p>{{ formMessage }}</p>
           <div class="btn-group">
-            <a href="/game" class="btn">Play Again</a>
+            <router-link to="/game" class="btn">Play Again</router-link>
           </div>
         </div>
         <div>
