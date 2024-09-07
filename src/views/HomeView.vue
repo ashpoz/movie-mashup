@@ -1,5 +1,6 @@
 <script setup>
 import MovieMarqueeImage from '../components/MovieMarqueeImage.vue';
+import HeadingComponent from '../components/HeadingComponent.vue';
 
 const posterImages = [
   {
@@ -25,14 +26,6 @@ main {
   }
 }
 
-h1 {
-  font-weight: 900;
-  text-transform: uppercase;
-  font-size: 4rem;
-  text-shadow: 1px 2px 0px gold;
-  color: white;
-}
-
 .btn-group {
   justify-content: center;
   margin-top: 3rem;
@@ -46,7 +39,9 @@ h1 {
 <template>
   <main>
     <div>
-      <h1>Movie Mashup</h1>
+      <HeadingComponent>
+        <h1>Movie Mashup</h1>
+      </HeadingComponent>
       <p>2 movies, 1 very bizarre plot.</p>
       <p><i>You</i> have to guess the combined movie title</p>
       <div class="btn-group">

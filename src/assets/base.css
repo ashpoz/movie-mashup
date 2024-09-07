@@ -115,6 +115,10 @@ input {
   font-size: .85em;
 }
 
+strong {
+  font-weight: 700;
+}
+
 .btn {
   background-color: var(--black-mute);
   color: gold;

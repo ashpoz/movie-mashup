@@ -13,7 +13,7 @@ const isDropdownActive = ref(false);
 
 const debouncedSearch = useDebounceFn((query) => {
   searchMovie(query)
-}, 1000);
+}, 500);
 
 async function searchMovie(query) {
   const searchMovie = fetch(`/.netlify/functions/search-movie?query=${query}`);
@@ -21,7 +21,7 @@ async function searchMovie(query) {
   try {
     const data = (await searchMovie).json();
     movieResults.value[props.name] = await data;
-    console.log(data)
+    // console.log(data)
   } catch (err) {
     console.error(err);
   }

@@ -6,6 +6,7 @@ import answers from '../data/movies.js'
 import MovieInput from '../components/MovieInput.vue'
 import ErrorMessage from '../components/ErrorMessage.vue'
 import MovieMarqueeImage from '../components/MovieMarqueeImage.vue'
+import HeadingComponent from '../components/HeadingComponent.vue'
 
 const router = useRouter()
 const randomMovie = getRandomMovie();
@@ -98,11 +99,6 @@ fieldset {
 }
 
 legend {
-  font-weight: 900;
-  text-transform: uppercase;
-  font-size: 4rem;
-  text-shadow: 1px 2px 0px gold;
-  color: white;
   text-align: center;
 }
 
@@ -118,7 +114,7 @@ label {
   }
 }
 
-button {
+button[type="submit"] {
   margin-top: 4rem;
   width: 100%;
   padding: 1rem;
@@ -126,14 +122,6 @@ button {
 
 #gameWon {
   display: grid;
-}
-
-#gameWon p {
-  font-weight: 900;
-  text-transform: uppercase;
-  font-size: 4rem;
-  text-shadow: 1px 2px 0px gold;
-  color: white;
 }
 
 @media (min-width: 768px) {
@@ -158,7 +146,9 @@ button {
         <h1>Movie Mashup Game</h1>
         <form v-show="!isGameWon" @submit.prevent="submit" ref="form">
           <fieldset>
-            <legend>Let's Play!</legend>
+            <HeadingComponent>
+              <legend>Let's Play!</legend>
+            </HeadingComponent>
             <label>Plot Synopsis:</label>
             <p>
               {{ movieSynopsis }}
@@ -176,7 +166,9 @@ button {
       </div>
       <div id="gameWon" v-show="isGameWon">
         <div>
-          <p>{{ formMessage }}</p>
+          <HeadingComponent>
+            <p>{{ formMessage }}</p>
+          </HeadingComponent>
           <div class="btn-group">
             <button @click="refreshPage" class="btn">Play Again</button>
           </div>
