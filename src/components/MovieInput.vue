@@ -64,10 +64,23 @@ li {
 </style>
 <template>
   <div>
-    <input @keyup="debouncedSearch(movieValue, $event)" @focus="isDropdownActive = true" @blur="isDropdownActive = false" type="text"
-      :name="props.name" v-model="movieValue" required :class="props.valid ? 'correct' : 'incorrect'" />
+    <input 
+      @keyup="debouncedSearch(movieValue, $event)" 
+      @focus="isDropdownActive = true" 
+      @blur="isDropdownActive = false" 
+      type="text"
+      :name="props.name" 
+      v-model="movieValue" 
+      required 
+      :class="props.valid ? 'correct' : 'incorrect'" 
+      autocomplete="off"
+    />
     <ul v-show="isDropdownActive">
-      <li @mousedown="movieValue = $event.target.textContent" v-for="movie in movieResults[props.name]" :key="movie.id">
+      <li 
+        @mousedown="movieValue = $event.target.textContent" 
+        v-for="movie in movieResults[props.name]" 
+        :key="movie.id"
+      >
         {{ movie.title }}
       </li>
     </ul>
