@@ -14,6 +14,7 @@ const correctAnswers = ref([false, false])
 const isGameWon = ref(false)
 const formMessage = ref(null)
 const form = ref()
+const posterImages = ref([randomMovie.movies[0].image, randomMovie.movies[1].image])
 
 const refreshPage = () => {
   router.go(0)
@@ -29,7 +30,7 @@ async function submit(e) {
   let formValues = [];
 
   for (const [inputName, value] of formData) {
-    formValues.push({inputName, value})
+    formValues.push({ inputName, value })
   }
   answers.forEach(answer => {
     const movie1 = (answer.movies[0].title).toLowerCase();
@@ -43,8 +44,6 @@ async function submit(e) {
       correctAnswers.value[1] = true
     }
   })
-
-  console.log(form.value)
 
   // if all arr vals are true, game is won
   isGameWon.value = correctAnswers.value.every(value => value === true)
@@ -70,6 +69,12 @@ function validateAnswers(arr) {
 <style scoped>
 main {
   grid-template-columns: 1fr;
+  text-align: center;
+
+  @media (min-width: 768px) {
+    gap: 2rem;
+    text-align: left;
+  }
 }
 
 section {
@@ -107,6 +112,7 @@ label {
   font-weight: bold;
   margin-top: 2rem;
   text-decoration: underline;
+
   &:first-of-type {
     margin-top: 0rem;
   }
@@ -120,9 +126,26 @@ button {
   display: grid;
 }
 
+#gameWon p {
+  font-weight: 900;
+  text-transform: uppercase;
+  font-size: 4rem;
+  text-shadow: 1px 2px 0px gold;
+  color: white;
+}
+
 @media (min-width: 768px) {
   #gameWon {
     grid-template-columns: 1fr 1fr;
+  }
+}
+
+.btn-group {
+  justify-content: center;
+  margin-bottom: 3rem;
+
+  @media (min-width: 768px) {
+    justify-content: flex-start;
   }
 }
 </style>
@@ -142,9 +165,9 @@ button {
             <MovieInput name="movie1" ref="input1" :valid="correctAnswers[0]" />
             <label for="movie2">2nd Movie:</label>
             <MovieInput name="movie2" ref="input2" :valid="correctAnswers[1]" />
-  
+
             <ErrorMessage v-show="formMessage" :message="formMessage" />
-  
+
             <button type="submit" class="btn">Enter</button>
           </fieldset>
         </form>
@@ -156,7 +179,7 @@ button {
             <button @click="refreshPage" class="btn">Play Again</button>
           </div>
         </div>
-          <MovieMarqueeImage />
+        <MovieMarqueeImage :posterImages=posterImages />
       </div>
     </section>
   </main>

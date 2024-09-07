@@ -9,7 +9,7 @@ const movieData = [
         "year": "1979",
         "image": {
           "alt": "Apocalypse Now movie poster",
-          "url": "https://image.tmdb.org/t/p/original/gQB8Y5RCMkv2zwzFHbUJX3kAhvA.jpg"
+          "url": "https://lionsgate.brightspotcdn.com/4c/7a/12a223204a37817b83b701111d4f/apocalypse-now-movie-poster-01.jpg"
         }
       },
       {
@@ -17,7 +17,7 @@ const movieData = [
         "year": "1995",
         "image": {
           "alt": "Now and Then movie poster.",
-          "url": "https://image.tmdb.org/t/p/original/q31Ks8oAmM4Nq2CcGjyYYpdBAmh.jpg"
+          "url": "https://s3.amazonaws.com/nightjarprod/content/uploads/sites/249/2024/08/12152309/q31Ks8oAmM4Nq2CcGjyYYpdBAmh-scaled.jpg"
         }
       }
     ],

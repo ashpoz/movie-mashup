@@ -1,5 +1,16 @@
 <script setup>
 import MovieMarqueeImage from '../components/MovieMarqueeImage.vue';
+
+const posterImages = [
+  {
+    url: 'https://lionsgate.brightspotcdn.com/4c/7a/12a223204a37817b83b701111d4f/apocalypse-now-movie-poster-01.jpg',
+    alt: 'Apocalypse Now movie poster. Shows a man in camoflauge with his face halfway submerged in water.'
+  },
+  {
+    url: 'https://s3.amazonaws.com/nightjarprod/content/uploads/sites/249/2024/08/12152309/q31Ks8oAmM4Nq2CcGjyYYpdBAmh-scaled.jpg',
+    alt: 'Now and Then movie poster. Shows a group of young adults and young women in front of a bright blue sky background.'
+  }
+]
 </script>
 
 <style scoped>
@@ -36,13 +47,15 @@ h1 {
   <main>
     <div>
       <h1>Movie Mashup</h1>
-      <p>2 movies, one very bizarre plot.</p>
+      <p>2 movies, 1 very bizarre plot.</p>
       <p><i>You</i> have to guess the combined movie title</p>
       <div class="btn-group">
         <router-link to="/game" class="btn">Play</router-link>
         <router-link to="/game/how-to-play" class="btn">How to Play</router-link>
       </div>
     </div>
-    <MovieMarqueeImage />
+    <MovieMarqueeImage 
+      :posterImages=posterImages
+    />
   </main>
 </template>
