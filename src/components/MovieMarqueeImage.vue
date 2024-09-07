@@ -10,6 +10,16 @@
   }
 }
 
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
 figure {
   animation-delay: 250ms;
   animation-duration: 1000ms;
@@ -38,6 +48,42 @@ figure {
     top: 0;
     width: 100%;
   }
+  div:nth-child(1) {
+    animation-delay: 0;
+    animation-duration: 5s;
+    animation-name: fadeIn;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+    animation-timing-function: ease-in-out;
+
+    background: url("https://s3.amazonaws.com/nightjarprod/content/uploads/sites/249/2024/08/12152309/q31Ks8oAmM4Nq2CcGjyYYpdBAmh-scaled.jpg"), url("https://lionsgate.brightspotcdn.com/4c/7a/12a223204a37817b83b701111d4f/apocalypse-now-movie-poster-01.jpg");
+    background-blend-mode: overlay;
+    background-repeat: no-repeat;
+    background-size: cover;
+    left: 0;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    width: 100%;
+  }
+  div:nth-child(2) {
+    animation-delay: 5s;
+    animation-duration: 5s;
+    animation-name: fadeIn;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+    animation-timing-function: ease-in-out;
+
+    background: url("https://lionsgate.brightspotcdn.com/4c/7a/12a223204a37817b83b701111d4f/apocalypse-now-movie-poster-01.jpg"), url("https://s3.amazonaws.com/nightjarprod/content/uploads/sites/249/2024/08/12152309/q31Ks8oAmM4Nq2CcGjyYYpdBAmh-scaled.jpg");
+    background-blend-mode: overlay;
+    background-repeat: no-repeat;
+    background-size: cover;
+    left: 0;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    width: 100%;
+  }
   @media (min-width: 768px) {
     max-width: 100%;
   }
@@ -46,11 +92,7 @@ figure {
 
 <template>
   <figure>
-    <img src="" alt="Movie Poster 1" />
-    <img src="" alt="Movie Poster 2" />
-    <span aria-hidden="true"></span>
-    <span aria-hidden="true"></span>
-    <span aria-hidden="true"></span>
-    <span aria-hidden="true"></span>
+    <div></div>
+    <div></div>
   </figure>
 </template>
