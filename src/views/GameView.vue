@@ -133,7 +133,7 @@ button {
         <h1>Movie Mashup Game</h1>
         <form v-show="!isGameWon" @submit.prevent="submit" ref="form">
           <fieldset>
-            <legend>What is the movie?</legend>
+            <legend>Let's Play!</legend>
             <label>Plot Synopsis:</label>
             <p>
               {{ movieSynopsis }}
