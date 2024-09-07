@@ -119,7 +119,9 @@ label {
 }
 
 button {
-  margin-top: 2rem;
+  margin-top: 4rem;
+  width: 100%;
+  padding: 1rem;
 }
 
 #gameWon {
