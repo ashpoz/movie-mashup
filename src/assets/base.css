@@ -37,6 +37,11 @@
   --section-gap: 160px;
 }
 
+/* fonts */
+:root {
+  --font-regular: "Barlow Semi Condensed", sans-serif;
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     --color-background: var(--black);
@@ -64,25 +69,13 @@
 
 body {
   min-height: 100vh;
-  color: var(--color-text);
+  color: var(--white-soft);
   background: var(--color-background);
   transition:
     color 0.5s,
     background-color 0.5s;
   line-height: 1.6;
-  font-family:
-    Inter,
-    -apple-system,
-    BlinkMacSystemFont,
-    'Segoe UI',
-    Roboto,
-    Oxygen,
-    Ubuntu,
-    Cantarell,
-    'Fira Sans',
-    'Droid Sans',
-    'Helvetica Neue',
-    sans-serif;
+  font-family: var(--font-regular);
   font-size: 18px;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -96,7 +89,7 @@ main {
   padding: 2rem 1rem;
   @media (min-width: 768px) {
     font-size: 1.5em;
-    padding: 2rem;
+    padding: 2rem 4rem;
   }
 }
 
@@ -112,20 +105,36 @@ img {
 
 button {
   cursor: pointer;
+  font-family: var(--font-regular);
   font-size: 1em;
   padding: 1rem 2rem;
 }
 
+input {
+  font-family: var(--font-regular);
+  font-size: .85em;
+}
+
 .btn {
-  background-color: var(--color-text);
-  border: none;
-  border-radius: 5px;
-  color: var(--color-background);
+  background-color: var(--black-mute);
+  color: gold;
   font-size: 1em;
-  padding: 1rem 2rem;
+  font-weight: 900;
+  border-width: 5px;
+  border-color: #FFF5C3;
+  border-style: dotted;
+  padding: .5rem 2rem;
   text-decoration: none;
+  text-transform: uppercase;
+  outline: 3px solid black;
+  box-shadow: 0px 0px 12px 1px gold;
+  padding: .5rem 2rem;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: all 150ms ease-in-out;
   &:hover {
-    background-color: var(--color-button-hover); 
+    background-color: var(--black); 
+    box-shadow: 0px 0px 24px 1px gold;
   }
 }
 

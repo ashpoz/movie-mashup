@@ -5,6 +5,7 @@ import { getRandomMovie } from '../lib/getRandomMovie'
 import answers from '../data/movies.js'
 import MovieInput from '../components/MovieInput.vue'
 import ErrorMessage from '../components/ErrorMessage.vue'
+import MovieMarqueeImage from '../components/MovieMarqueeImage.vue'
 
 const router = useRouter()
 const randomMovie = getRandomMovie();
@@ -86,12 +87,18 @@ h1 {
 }
 
 fieldset {
+  box-shadow: 0px 0px 50px 1px gold;
   margin-top: 2rem;
   padding: 2rem;
 }
 
 legend {
-  font-weight: bold;
+  font-weight: 900;
+  text-transform: uppercase;
+  font-size: 4rem;
+  text-shadow: 1px 2px 0px gold;
+  color: white;
+  text-align: center;
 }
 
 label {
@@ -107,59 +114,6 @@ label {
 
 button {
   margin-top: 2rem;
-}
-
-figure {
-  aspect-ratio: 2 / 3;
-  background-color: black;
-  border: 30px solid #343434;
-  outline: 10px solid black;
-  position: relative;
-
-  img {
-    height: 100%;
-    left: 0;
-    position: absolute;
-    top: 0;
-    width: 100%;
-  }
-
-  span {
-    content: '';
-    background: radial-gradient(ellipse at center, #FFF5C3 0%, #FFF5C3 30%, transparent 30%);
-    background-repeat: repeat;
-    position: absolute;
-    background-size: 50px;
-  }
-
-  span:first-of-type {
-    width: calc(100% + 60px);
-    height: 50px;
-    top: -40px;
-    left: -30px;
-  }
-  span:nth-of-type(2) {
-    width: calc(100% + 60px);
-    height: 50px;
-    bottom: -40px;
-    left: -30px;
-  }
-  span:nth-of-type(3) {
-    width: calc((100% * 1.5) + 30px);
-    height: 50px;
-    top: -30px;
-    left: -15px;
-    transform: rotate(90deg);
-    transform-origin: left;
-  }
-  span:nth-of-type(4) {
-    width: calc((100% * 1.5) + 30px);
-    height: 50px;
-    right: -15px;
-    bottom: -15px;
-    transform: rotate(90deg);
-    transform-origin: right;
-  }
 }
 
 #gameWon {
@@ -202,16 +156,7 @@ figure {
             <button @click="refreshPage" class="btn">Play Again</button>
           </div>
         </div>
-        <div>
-          <figure>
-            <img src="" alt="Movie Poster 1" />
-            <img src="" alt="Movie Poster 2" />
-            <span aria-hidden="true"></span>
-            <span aria-hidden="true"></span>
-            <span aria-hidden="true"></span>
-            <span aria-hidden="true"></span>
-          </figure>
-        </div>
+          <MovieMarqueeImage />
       </div>
     </section>
   </main>
