@@ -78,12 +78,6 @@ main {
   }
 }
 
-section {
-  margin: auto;
-  max-width: 800px;
-  width: 100%;
-}
-
 h1 {
   height: 1px;
   width: 1px;
@@ -121,6 +115,7 @@ button[type="submit"] {
 }
 
 #gameWon {
+  align-items: center;
   display: grid;
 }
 

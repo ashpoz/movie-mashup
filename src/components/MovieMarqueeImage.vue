@@ -103,7 +103,7 @@ figure {
   }
 
   @media (min-width: 768px) {
-    max-width: 100%;
+    max-width: 80%;
   }
 }
 </style>
