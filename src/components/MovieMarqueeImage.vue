@@ -64,7 +64,8 @@ figure {
     width: 100%;
   }
 
-  div:nth-child(1) {
+  div {
+    /* animation */
     animation-delay: 0;
     animation-duration: 5s;
     animation-name: fadeIn;
@@ -72,10 +73,14 @@ figure {
     animation-direction: alternate;
     animation-timing-function: ease-in-out;
 
-    background: var(--poster-image-1), var(--poster-image-2);
+    /* bg */
     background-blend-mode: overlay;
     background-repeat: no-repeat;
     background-size: cover;
+    background-position: center;
+    background-attachment: scroll;
+
+    /* layout */
     left: 0;
     height: 100%;
     position: absolute;
@@ -83,23 +88,13 @@ figure {
     width: 100%;
   }
 
+  div:nth-child(1) {
+    background-image: var(--poster-image-1), var(--poster-image-2);
+  }
+
   div:nth-child(2) {
     animation-delay: 5s;
-    animation-duration: 5s;
-    animation-name: fadeIn;
-    animation-iteration-count: infinite;
-    animation-direction: alternate;
-    animation-timing-function: ease-in-out;
-
-    background: var(--poster-image-2), var(--poster-image-1);
-    background-blend-mode: overlay;
-    background-repeat: no-repeat;
-    background-size: cover;
-    left: 0;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    width: 100%;
+    background-image: var(--poster-image-2), var(--poster-image-1);
   }
 
   @media (min-width: 768px) {
