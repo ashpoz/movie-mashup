@@ -49,6 +49,7 @@ figure {
   border-color: #FFF5C3;
   border-style: dotted;
   padding: .5rem 2rem;
+  position: relative;
   text-decoration: none;
   text-transform: uppercase;
   outline: 13px solid black;
