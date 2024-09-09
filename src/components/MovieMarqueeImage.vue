@@ -73,13 +73,6 @@ figure {
     animation-direction: alternate;
     animation-timing-function: ease-in-out;
 
-    /* bg */
-    background-blend-mode: overlay;
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-    background-attachment: scroll;
-
     /* layout */
     left: 0;
     height: 100%;
@@ -88,13 +81,15 @@ figure {
     width: 100%;
   }
 
-  div:nth-child(1) {
-    background-image: var(--poster-image-1), var(--poster-image-2);
+  div:nth-child(1) img {
+    mix-blend-mode: overlay;
   }
 
   div:nth-child(2) {
     animation-delay: 5s;
-    background-image: var(--poster-image-2), var(--poster-image-1);
+    img {
+      mix-blend-mode: overlay;
+    }
   }
 
   @media (min-width: 768px) {
@@ -105,7 +100,13 @@ figure {
 
 <template>
   <figure :style="cssProps">
-    <div></div>
-    <div></div>
+    <div>
+      <img :src="props.posterImages[0].url" :alt="props.posterImages[0].alt">
+      <img :src="props.posterImages[1].url" :alt="props.posterImages[1].alt">
+    </div>
+    <div>
+      <img :src="props.posterImages[1].url" :alt="props.posterImages[1].alt">
+      <img :src="props.posterImages[0].url" :alt="props.posterImages[0].alt">
+    </div>
   </figure>
 </template>
