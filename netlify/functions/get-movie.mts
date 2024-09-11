@@ -14,7 +14,6 @@ const supabaseKey = process.env.SUPABASE_KEY ?? ''
 
     if (error) throw error
 
-    console.log(data)
     return Response.json(data)
 
   } catch (error) {
