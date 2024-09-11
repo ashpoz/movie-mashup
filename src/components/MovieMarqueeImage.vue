@@ -91,7 +91,7 @@ figure {
 
   & div:nth-child(2) {
     animation-delay: 5s;
-    img {
+    & img {
       mix-blend-mode: overlay;
     }
   }
