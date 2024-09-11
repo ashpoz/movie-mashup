@@ -58,7 +58,7 @@ figure {
   width: 100%;
   max-width: 350px;
 
-  img {
+  & img {
     height: 100%;
     left: 0;
     right: 0;
@@ -67,7 +67,7 @@ figure {
     width: auto;
   }
 
-  div {
+  & div {
     /* animation */
     animation-delay: 0;
     animation-duration: 5s;
@@ -85,11 +85,11 @@ figure {
     width: auto;
   }
 
-  div:nth-child(1) img {
+  & div:nth-child(1) img {
     mix-blend-mode: overlay;
   }
 
-  div:nth-child(2) {
+  & div:nth-child(2) {
     animation-delay: 5s;
     img {
       mix-blend-mode: overlay;
