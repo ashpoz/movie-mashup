@@ -35,7 +35,7 @@ const cssProps = computed(() => {
 }
 
 figure {
-  animation-delay: 250ms;
+  /* animation-delay: 250ms; */
   animation-duration: 1000ms;
   animation-name: flash;
   animation-iteration-count: infinite;
@@ -69,7 +69,6 @@ figure {
 
   & div {
     /* animation */
-    animation-delay: 0;
     animation-duration: 5s;
     animation-name: fadeIn;
     animation-iteration-count: infinite;
@@ -86,11 +85,12 @@ figure {
   }
 
   & div:nth-child(1) img {
+    animation-delay: 0;
     mix-blend-mode: overlay;
   }
 
   & div:nth-child(2) {
-    animation-delay: 5s;
+    animation-delay: -5s;
     & img {
       mix-blend-mode: overlay;
     }
@@ -105,12 +105,12 @@ figure {
 <template>
   <figure :style="cssProps">
     <div>
-      <img :src="props.posterImages[0].url" :alt="props.posterImages[0].alt">
-      <img :src="props.posterImages[1].url" :alt="props.posterImages[1].alt">
+      <img rel="preload" :src="props.posterImages[0].url" :alt="props.posterImages[0].alt">
+      <img rel="preload" :src="props.posterImages[1].url" :alt="props.posterImages[1].alt">
     </div>
     <div>
-      <img :src="props.posterImages[1].url" :alt="props.posterImages[1].alt">
-      <img :src="props.posterImages[0].url" :alt="props.posterImages[0].alt">
+      <img rel="preload" :src="props.posterImages[1].url" :alt="props.posterImages[1].alt">
+      <img rel="preload" :src="props.posterImages[0].url" :alt="props.posterImages[0].alt">
     </div>
   </figure>
 </template>
