@@ -43,7 +43,7 @@ figure {
   animation-timing-function: ease-in-out;
   aspect-ratio: 2 / 3;
   background-color: black;
-  display: flex;
+  display: block;
   outline: 10px solid black;
   position: relative;
   border-width: 25px;
