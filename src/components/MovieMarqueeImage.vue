@@ -64,7 +64,7 @@ figure {
     right: 0;
     position: absolute;
     top: 0;
-    width: 100%;
+    width: auto;
   }
 
   div {
@@ -82,7 +82,7 @@ figure {
     position: absolute;
     right: 0;
     top: 0;
-    width: 100%;
+    width: auto;
   }
 
   div:nth-child(1) img {
