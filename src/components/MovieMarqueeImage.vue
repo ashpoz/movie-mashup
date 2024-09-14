@@ -5,8 +5,8 @@ const props = defineProps(['posterImages'])
 
 const cssProps = computed(() => {
   return {
-    '--poster-image-1': `url(${props.posterImages[0].url})`,
-    '--poster-image-2': `url(${props.posterImages[1].url})`,
+    '--poster-image-1': `url(${props.posterImages[0].image_url})`,
+    '--poster-image-2': `url(${props.posterImages[1].image_url})`,
   }
 })
 
