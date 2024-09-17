@@ -10,7 +10,7 @@ import NavBar from './components/NavBar.vue'
     column-gap: 1rem;
     row-gap: 5rem;
     grid-template-columns: 1fr 1fr;
-    height: 100vh;
+    min-height: 100vh;
   }
 </style>
 

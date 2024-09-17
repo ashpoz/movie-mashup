@@ -6,12 +6,16 @@ import { RouterLink } from 'vue-router'
 nav {
   display: flex;
   gap: 1rem;
-  padding: 1rem 2rem;
+  padding: 2rem 1rem;
+
+  @media (min-width: 768px) {
+    padding: 2rem;
+  }
 }
 
 nav a {
   align-items: center;
-  color: #fff;
+  color: var(--color-text);
   column-gap: 0.75rem;
   display: flex;
   flex: 1 0 auto;
@@ -29,7 +33,7 @@ svg {
 }
 
 .logo svg path {
-  fill: #fff;
+  fill: var(--color-text);
 }
 
 nav a {

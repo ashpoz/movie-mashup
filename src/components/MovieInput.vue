@@ -13,7 +13,7 @@ const isDropdownActive = ref(false);
 
 const debouncedSearch = useDebounceFn((query) => {
   searchMovie(query)
-}, 500);
+}, 150);
 
 async function searchMovie(query) {
   const searchMovie = fetch(`/.netlify/functions/search-movie?query=${query}`);
