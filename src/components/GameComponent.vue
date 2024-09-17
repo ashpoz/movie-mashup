@@ -1,34 +1,39 @@
 <script setup>
 import { ref } from 'vue'
 import { getRandomMovie } from '../lib/getRandomMovie'
+import { getMovieDetails } from '../lib/getMovieDetails'
 import MovieInput from '../components/MovieInput.vue'
 import ErrorMessage from '../components/ErrorMessage.vue'
 import MovieMarqueeImage from '../components/MovieMarqueeImage.vue'
 import HeadingComponent from '../components/HeadingComponent.vue'
 
+// Mashup data
 const movieMashup = await getRandomMovie();
 const movies = movieMashup.movies
-
 const movieSynopsis = movieMashup.synopsis;
+
+// TMDB vars
+const movieTmdbIds = movies.map(movie => movie.tmdb_id)
+const getTmdbDetails = await Promise.all(movieTmdbIds.map(async (id) => await getMovieDetails(id)))
+const tmbdPosterPath = 'https://www.themoviedb.org/t/p/w1280'
+const getPosterData = (tmdbData, dbData, tmdbPath) => {
+  return {
+    'url': tmdbData ? tmdbPath + tmdbData.poster_path : dbData.image_url, 
+    'alt': dbData.image_alt ? dbData.image_alt : `${dbData.title} movie poster`
+  }
+}
+
+console.log(getTmdbDetails)
+
+// Vue vars
 const correctAnswers = ref([false, false])
 const isGameWon = ref(false)
 const formMessage = ref(null)
 const form = ref()
 const posterImages = ref([
-  {
-    'url': movies[0].image_url, 
-    'alt': movies[0].image_alt
-  },
-  {
-    'url': movies[1].image_url, 
-    'alt': movies[1].image_alt
-  },
+  getPosterData(getTmdbDetails[0], movies[0], tmbdPosterPath),
+  getPosterData(getTmdbDetails[1], movies[1], tmbdPosterPath),
 ])
-
-// add some err styling
-// if one is correct, highlight green and the other red
-// if both are incorect, highlight red
-// if both correct, hide form and show game is won view
 
 async function submit(e) {
   const formData = new FormData(e.target)
@@ -102,9 +107,10 @@ legend {
 label {
   display: block;
   font-size: 0.75em;
-  font-weight: bold;
+  font-weight: 900;
   margin-top: 2rem;
-  text-decoration: underline;
+  margin-bottom: 5px;
+  text-transform: uppercase;
 
   &:first-of-type {
     margin-top: 0rem;
