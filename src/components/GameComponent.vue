@@ -2,6 +2,7 @@
 import { ref } from 'vue'
 import { getRandomMovie } from '../lib/getRandomMovie'
 import { getMovieDetails } from '../lib/getMovieDetails'
+import { removePunctuation } from '../lib/helper-functions'
 import MovieInput from '../components/MovieInput.vue'
 import ErrorMessage from '../components/ErrorMessage.vue'
 import MovieMarqueeImage from '../components/MovieMarqueeImage.vue'
@@ -23,7 +24,7 @@ const getPosterData = (tmdbData, dbData, tmdbPath) => {
   }
 }
 
-console.log(getTmdbDetails)
+// console.log(getTmdbDetails)
 
 // Vue vars
 const correctAnswers = ref([false, false])
@@ -46,11 +47,11 @@ async function submit(e) {
     const movie1 = (movie.title).toLowerCase();
     const movie2 = (movie.title).toLowerCase();
 
-    if (movie1 === (formValues[0].value).toLowerCase()) {
+    if (removePunctuation(movie1) === removePunctuation((formValues[0].value).toLowerCase())) {
       correctAnswers.value[0] = true
     }
 
-    if (movie2 === (formValues[1].value).toLowerCase()) {
+    if (removePunctuation(movie2) === removePunctuation((formValues[1].value).toLowerCase())) {
       correctAnswers.value[1] = true
     }
   })
@@ -158,9 +159,9 @@ button[type="submit"] {
               {{ movieSynopsis }}
             </p>
             <label for="movie1">1st Movie:</label>
-            <MovieInput name="movie1" ref="input1" :valid="correctAnswers[0]" />
+            <MovieInput name="movie1" ref="input1" :valid="String(correctAnswers[0])" />
             <label for="movie2">2nd Movie:</label>
-            <MovieInput name="movie2" ref="input2" :valid="correctAnswers[1]" />
+            <MovieInput name="movie2" ref="input2" :valid="String(correctAnswers[1])" />
 
             <ErrorMessage v-show="formMessage" :message="formMessage" />
 

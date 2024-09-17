@@ -21,7 +21,6 @@ async function searchMovie(query) {
   try {
     const data = (await searchMovie).json();
     movieResults.value[props.name] = await data;
-    // console.log(data)
   } catch (err) {
     console.error(err);
   }
