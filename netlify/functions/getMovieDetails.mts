@@ -13,4 +13,3 @@ export async function getMovieDetails(tmdbId) {
     return getMovieDetails.json()
   }
 }
-

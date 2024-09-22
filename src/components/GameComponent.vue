@@ -1,40 +1,32 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { getRandomMovie } from '../lib/getRandomMovie'
-import { getMovieDetails } from '../lib/getMovieDetails'
-import { removePunctuation } from '../lib/helper-functions'
 import MovieInput from '../components/MovieInput.vue'
 import ErrorMessage from '../components/ErrorMessage.vue'
 import MovieMarqueeImage from '../components/MovieMarqueeImage.vue'
 import HeadingComponent from '../components/HeadingComponent.vue'
+import { getPosterData } from '../lib/getPosterData'
+// TODO: move fetching all movie logic to server
 
 // Mashup data
 const movieMashup = await getRandomMovie();
-const movies = movieMashup.movies
 const movieSynopsis = movieMashup.synopsis;
-
-// TMDB vars
-const movieTmdbIds = movies.map(movie => movie.tmdb_id)
-const getTmdbDetails = await Promise.all(movieTmdbIds.map(async (id) => await getMovieDetails(id)))
-const tmbdPosterPath = 'https://www.themoviedb.org/t/p/w1280'
-const getPosterData = (tmdbData, dbData, tmdbPath) => {
-  return {
-    'url': tmdbData ? tmdbPath + tmdbData.poster_path : dbData.image_url, 
-    'alt': dbData.image_alt ? dbData.image_alt : `${dbData.title} movie poster`
-  }
-}
-
-// console.log(getTmdbDetails)
+const mashupId = movieMashup.id;
 
 // Vue vars
+const results = ref()
 const correctAnswers = ref([false, false])
 const isGameWon = ref(false)
+const showWin = ref(false)
 const formMessage = ref(null)
 const form = ref()
-const posterImages = ref([
-  getPosterData(getTmdbDetails[0], movies[0], tmbdPosterPath),
-  getPosterData(getTmdbDetails[1], movies[1], tmbdPosterPath),
-])
+const posterImages = ref([])
+
+watch(isGameWon, async () => {
+  posterImages.value[0] = getPosterData(results.value.movies[0])
+  posterImages.value[1] = getPosterData(results.value.movies[1])
+  showWin.value = true
+})
 
 async function submit(e) {
   const formData = new FormData(e.target)
@@ -43,35 +35,22 @@ async function submit(e) {
   for (const [inputName, value] of formData) {
     formValues.push({ inputName, value })
   }
-  movies.forEach(movie => {
-    const movie1 = (movie.title).toLowerCase();
-    const movie2 = (movie.title).toLowerCase();
 
-    if (removePunctuation(movie1) === removePunctuation((formValues[0].value).toLowerCase())) {
-      correctAnswers.value[0] = true
-    }
+  const movie1 = formValues.find((val) => val.inputName === 'movie1').value
+  const movie2 = formValues.find((val) => val.inputName === 'movie2').value
+  const movies = [encodeURIComponent(movie1), encodeURIComponent(movie2)]
+  const mashup = formValues.find((val) => val.inputName === 'mashupId').value
 
-    if (removePunctuation(movie2) === removePunctuation((formValues[1].value).toLowerCase())) {
-      correctAnswers.value[1] = true
-    }
-  })
+  try {
+    const response = await fetch(`/.netlify/functions/submit-answer?answer=${movies}&mashup=${mashup}`);
+    const json = await response.json()
 
-  // if all arr vals are true, game is won
-  isGameWon.value = correctAnswers.value.every(value => value === true)
-
-  // update message
-  validateAnswers(correctAnswers.value)
-}
-
-function validateAnswers(arr) {
-  if (arr[0] && !arr[1]) {
-    formMessage.value = 'Your 1st guess is correct!'
-  } else if (!arr[0] && arr[1]) {
-    formMessage.value = 'Your 2nd guess is correct!'
-  } else if (arr[0] && arr[1]) {
-    formMessage.value = 'You got it!'
-  } else {
-    formMessage.value = 'Whoops, try again!'
+    results.value = json
+    correctAnswers.value = json.answers
+    isGameWon.value = json.correct
+    formMessage.value = json.message
+  } catch (err) {
+    console.error(err)
   }
 }
 </script>
@@ -162,6 +141,7 @@ button[type="submit"] {
             <MovieInput name="movie1" ref="input1" :valid="String(correctAnswers[0])" />
             <label for="movie2">2nd Movie:</label>
             <MovieInput name="movie2" ref="input2" :valid="String(correctAnswers[1])" />
+            <input type="hidden" name="mashupId" :value="mashupId">
 
             <ErrorMessage v-show="formMessage" :message="formMessage" />
 
@@ -169,7 +149,7 @@ button[type="submit"] {
           </fieldset>
         </form>
       </div>
-      <div id="gameWon" v-show="isGameWon">
+      <div id="gameWon" v-if="showWin">
         <div>
           <HeadingComponent>
             <p>{{ formMessage }}</p>

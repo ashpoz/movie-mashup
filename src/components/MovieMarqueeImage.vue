@@ -1,15 +1,6 @@
 <script setup>
-import { computed } from 'vue'
 
 const props = defineProps(['posterImages'])
-
-const cssProps = computed(() => {
-  return {
-    '--poster-image-1': `url(${props.posterImages[0].image_url})`,
-    '--poster-image-2': `url(${props.posterImages[1].image_url})`,
-  }
-})
-
 
 </script>
 
@@ -103,7 +94,7 @@ figure {
 </style>
 
 <template>
-  <figure :style="cssProps">
+  <figure>
     <div>
       <img rel="preload" :src="props.posterImages[0].url" :alt="props.posterImages[0].alt">
       <img rel="preload" :src="props.posterImages[1].url" :alt="props.posterImages[1].alt">

@@ -35,12 +35,22 @@ const supabaseKey = process.env.SUPABASE_KEY ?? ''
     .from('Movies')
     .select()
     .in('id', mashupIds.map(item => item.movie_id))
+    .order('id', { ascending: true })
 
     if (movieError) throw new Error(movieError.message)
 
-    // build json obj with mashup and movies associated with mashup
-    let json = mashupData ?? {}
-    json[0]['movies'] = movieData
+    if (!mashupData || !movieData) throw new Error('Data is empty')
+
+    const json = [
+      {
+        id: mashupData[0].id,
+        synopsis: mashupData[0].synopsis,
+        movies: [
+          movieData[0].id,
+          movieData[1].id
+        ]
+      }
+    ]
 
     return Response.json(json)
 
