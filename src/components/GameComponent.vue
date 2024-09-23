@@ -28,6 +28,21 @@ watch(isGameWon, async () => {
   showWin.value = true
 })
 
+async function revealAnswer(e) {
+  e.preventDefault()
+  try {
+    const response = await fetch(`/.netlify/functions/reveal-answer?mashup=${mashupId}`);
+    const json = await response.json()
+
+    results.value = json
+    correctAnswers.value = json.answers
+    isGameWon.value = json.correct
+    formMessage.value = json.message
+  } catch (err) {
+    console.error(err)
+  }
+}
+
 async function submit(e) {
   const formData = new FormData(e.target)
   let formValues = [];
@@ -98,7 +113,6 @@ label {
 }
 
 button[type="submit"] {
-  margin-top: 4rem;
   width: 100%;
   padding: 1rem;
 }
@@ -114,9 +128,19 @@ button[type="submit"] {
   }
 }
 
+.btn-group .btn {
+  flex: 1;
+}
+
+.btn-secondary svg {
+  margin-left: .75rem;
+  width: 1.75rem;
+}
+
 .btn-group {
   justify-content: center;
-  margin-bottom: 3rem;
+  margin-bottom: 2rem;
+  margin-top: 4rem;
 
   @media (min-width: 768px) {
     justify-content: flex-start;
@@ -141,11 +165,25 @@ button[type="submit"] {
             <MovieInput name="movie1" ref="input1" :valid="String(correctAnswers[0])" />
             <label for="movie2">2nd Movie:</label>
             <MovieInput name="movie2" ref="input2" :valid="String(correctAnswers[1])" />
-            <input type="hidden" name="mashupId" :value="mashupId">
+            <input type="hidden" v-model="mashupId" name="mashupId">
 
             <ErrorMessage v-show="formMessage" :message="formMessage" />
 
-            <button type="submit" class="btn">Enter</button>
+            <div class="btn-group">
+              <button @click="revealAnswer" ref="reveal" class="btn btn-secondary">
+                <span>Reveal Answer?</span>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />
+                </svg>
+              </button>
+              <!-- <button ref="hint" class="btn btn-secondary">
+                <span>Get a Hint</span>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 18v-5.25m0 0a6.01 6.01 0 0 0 1.5-.189m-1.5.189a6.01 6.01 0 0 1-1.5-.189m3.75 7.478a12.06 12.06 0 0 1-4.5 0m3.75 2.383a14.406 14.406 0 0 1-3 0M14.25 18v-.192c0-.983.658-1.823 1.508-2.316a7.5 7.5 0 1 0-7.517 0c.85.493 1.509 1.333 1.509 2.316V18" />
+                </svg>
+              </button> -->
+            </div>
+            <button ref="submit" type="submit" class="btn btn-primary">Enter</button>
           </fieldset>
         </form>
       </div>
@@ -155,7 +193,7 @@ button[type="submit"] {
             <p>{{ formMessage }}</p>
           </HeadingComponent>
           <div class="btn-group">
-            <a href="/game" class="btn">Play Again</a>
+            <a href="/game" class="btn btn-primary">Play Again</a>
           </div>
         </div>
         <MovieMarqueeImage :posterImages=posterImages />

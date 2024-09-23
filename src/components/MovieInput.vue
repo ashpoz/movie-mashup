@@ -75,7 +75,7 @@ li {
       autocomplete="off"
     />
     <ul v-show="isDropdownActive">
-      <li 
+      <li
         @mousedown="movieValue = $event.target.textContent" 
         v-for="movie in movieResults[props.name]" 
         :key="movie.id"

@@ -45,8 +45,8 @@ main {
       <p>2 movies, 1 very bizarre plot.</p>
       <p><i>You</i> have to guess the combined movie title</p>
       <div class="btn-group">
-        <router-link to="/game" class="btn">Play</router-link>
-        <router-link to="/game/how-to-play" class="btn">How to Play</router-link>
+        <router-link to="/game" class="btn btn-primary">Play</router-link>
+        <router-link to="/game/how-to-play" class="btn btn-secondary">How to Play</router-link>
       </div>
     </div>
     <MovieMarqueeImage 
