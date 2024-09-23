@@ -1,7 +1,6 @@
 import type { Context } from '@netlify/functions'
 import { createClient } from '@supabase/supabase-js'
 import { getMovieDetails } from './get-movie-details.mts';
-import { validateAnswer } from '../../src/lib/validateAnswer';
 
 export default async (req: Request, context: Context) => {
   const supabaseUrl = process.env.SUPABASE_URL ?? ''
