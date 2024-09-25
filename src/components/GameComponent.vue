@@ -5,6 +5,7 @@ import MovieInput from '../components/MovieInput.vue'
 import ErrorMessage from '../components/ErrorMessage.vue'
 import MovieMarqueeImage from '../components/MovieMarqueeImage.vue'
 import HeadingComponent from '../components/HeadingComponent.vue'
+import HintsComponent from '../components/HintsComponent.vue'
 import { getPosterData } from '../lib/getPosterData'
 // TODO: move fetching all movie logic to server
 
@@ -21,6 +22,7 @@ const showWin = ref(false)
 const formMessage = ref(null)
 const form = ref()
 const posterImages = ref([])
+const hintsActive = ref(false)
 
 watch(isGameWon, async () => {
   posterImages.value[0] = getPosterData(results.value.movies[0])
@@ -90,7 +92,7 @@ h1 {
 }
 
 fieldset {
-  box-shadow: 0px 0px 50px 1px gold;
+  border: none;
   margin-top: 2rem;
   padding: 2rem;
 }
@@ -112,9 +114,42 @@ label {
   }
 }
 
+h2 {
+  margin-top: 2rem;
+  text-align: center;
+}
+
 button[type="submit"] {
   width: 100%;
   padding: 1rem;
+}
+
+button[name="hints"] {
+  align-items: center;
+  background: transparent;
+  border: 1px solid var(--color-text);
+  color: var(--color-text);
+  display: flex;
+  font-size: 1.25rem;
+  font-weight: bold;
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+  position: absolute;
+  right: 0;
+  text-transform: uppercase;
+  top: 0;
+
+  svg {
+    font-size: .75rem;
+    margin-left: .5rem;
+  }
+}
+
+#gameForm {
+  border: 1px solid var(--color-text);
+  box-shadow: 0px 0px 50px 1px gold;
+  display: grid;
+  position: relative;
 }
 
 #gameWon {
@@ -149,10 +184,6 @@ button[type="submit"] {
   }
 }
 
-.btn-group .btn {
-  flex: 1;
-}
-
 .btn-secondary svg {
   margin-left: .75rem;
   width: 1.75rem;
@@ -160,8 +191,8 @@ button[type="submit"] {
 
 .btn-group {
   justify-content: center;
-  margin-bottom: 2rem;
   margin-top: 4rem;
+  gap: 0;
 
   @media (min-width: 768px) {
     justify-content: flex-start;
@@ -170,49 +201,52 @@ button[type="submit"] {
 </style>
 
 <template>
-    <section>
-      <div id="gameForm">
-        <h1>Movie Mashup Game</h1>
-        <form v-show="!isGameWon" @submit.prevent="submit" ref="form">
-          <fieldset>
-            <HeadingComponent>
-              <legend>Let's Play!</legend>
-            </HeadingComponent>
-            <label>Plot Synopsis:</label>
-            <p>
-              {{ movieSynopsis }}
-            </p>
-            <label for="movie1">1st Movie:</label>
-            <MovieInput name="movie1" ref="input1" :valid="String(correctAnswers[0])" />
-            <label for="movie2">2nd Movie:</label>
-            <MovieInput name="movie2" ref="input2" :valid="String(correctAnswers[1])" />
-            <input type="hidden" v-model="mashupId" name="mashupId">
+  <section>
+    <div id="gameForm" v-show="!isGameWon">
+      <HeadingComponent>
+        <h2>Let's Play!</h2>
+      </HeadingComponent>
+      <button name="hints" @click="hintsActive = !hintsActive">
+        Hints
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+          class="size-6">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M12 18v-5.25m0 0a6.01 6.01 0 0 0 1.5-.189m-1.5.189a6.01 6.01 0 0 1-1.5-.189m3.75 7.478a12.06 12.06 0 0 1-4.5 0m3.75 2.383a14.406 14.406 0 0 1-3 0M14.25 18v-.192c0-.983.658-1.823 1.508-2.316a7.5 7.5 0 1 0-7.517 0c.85.493 1.509 1.333 1.509 2.316V18" />
+        </svg>
 
-            <ErrorMessage v-show="formMessage" :message="formMessage" />
+      </button>
+      <form @submit.prevent="submit" ref="form">
+        <fieldset>
+          <label>Plot Synopsis:</label>
+          <p>
+            {{ movieSynopsis }}
+          </p>
+          <label for="movie1">1st Movie:</label>
+          <MovieInput name="movie1" ref="input1" :valid="String(correctAnswers[0])" />
+          <label for="movie2">2nd Movie:</label>
+          <MovieInput name="movie2" ref="input2" :valid="String(correctAnswers[1])" />
+          <input type="hidden" v-model="mashupId" name="mashupId">
 
-            <div class="btn-group">
-              <!-- <button ref="hint" class="btn btn-secondary">
-                <span>Get a Hint</span>
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 18v-5.25m0 0a6.01 6.01 0 0 0 1.5-.189m-1.5.189a6.01 6.01 0 0 1-1.5-.189m3.75 7.478a12.06 12.06 0 0 1-4.5 0m3.75 2.383a14.406 14.406 0 0 1-3 0M14.25 18v-.192c0-.983.658-1.823 1.508-2.316a7.5 7.5 0 1 0-7.517 0c.85.493 1.509 1.333 1.509 2.316V18" />
-                </svg>
-              </button> -->
-            </div>
+          <ErrorMessage v-show="formMessage" :message="formMessage" />
+
+          <div class="btn-group">
             <button ref="submit" type="submit" class="btn btn-primary">Enter</button>
             <button id="revealButton" href="" @click="revealAnswer">Reveal Answer?</button>
-          </fieldset>
-        </form>
-      </div>
-      <div id="gameWon" v-if="showWin">
-        <div>
-          <HeadingComponent>
-            <p>{{ formMessage }}</p>
-          </HeadingComponent>
-          <div class="btn-group">
-            <a href="/game" class="btn btn-primary">Play Again</a>
           </div>
+        </fieldset>
+      </form>
+    </div>
+    <div id="gameWon" v-if="showWin">
+      <div>
+        <HeadingComponent>
+          <p>{{ formMessage }}</p>
+        </HeadingComponent>
+        <div class="btn-group">
+          <a href="/game" class="btn btn-primary">Play Again</a>
         </div>
-        <MovieMarqueeImage :posterImages=posterImages />
       </div>
-    </section>
+      <MovieMarqueeImage :posterImages=posterImages />
+    </div>
+  </section>
+  <HintsComponent :active="hintsActive" :mashup="mashupId" />
 </template>
