@@ -93,7 +93,6 @@ h1 {
 
 fieldset {
   border: none;
-  margin-top: 2rem;
   padding: 2rem;
 }
 
@@ -115,7 +114,7 @@ label {
 }
 
 h2 {
-  margin-top: 2rem;
+  margin-top: 4rem;
   text-align: center;
 }
 
@@ -130,7 +129,7 @@ button[name="hints"] {
   border: 1px solid var(--color-text);
   color: var(--color-text);
   display: flex;
-  font-size: 1.25rem;
+  font-size: 1em;
   font-weight: bold;
   padding-left: 1.25rem;
   padding-right: 1.25rem;
@@ -141,6 +140,7 @@ button[name="hints"] {
 
   svg {
     font-size: .75rem;
+    fill: var(--yellow-dark);
     margin-left: .5rem;
   }
 }

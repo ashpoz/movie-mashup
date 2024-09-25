@@ -51,6 +51,7 @@ onMounted(() => {
 button[name="close"] {
   background: transparent;
   border: none;
+  color: var(--color-text);
   display: flex;
   margin-left: auto;
   padding: 1rem;
@@ -58,11 +59,12 @@ button[name="close"] {
   right: 0;
   top: 0;
   svg {
-    stroke: white;
+    stroke: var(--color-text);
   }
 }
 
 button[name="revealHint"] {
+  margin-bottom: 1rem;
   margin-top: 2rem;
 }
 
@@ -71,7 +73,7 @@ dialog {
   color: var(--color-text);
   margin: auto;
   max-width: 600px;
-  width: 100%;
+  width: calc(100% - 2rem);
 
   &::backdrop {
     backdrop-filter: blur(10px);
