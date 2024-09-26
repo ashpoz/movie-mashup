@@ -23,6 +23,7 @@ const formMessage = ref(null)
 const form = ref()
 const posterImages = ref([])
 const hintsActive = ref(false)
+const mashupAnswer = ref(null)
 
 watch(isGameWon, async () => {
   posterImages.value[0] = getPosterData(results.value.movies[0])
@@ -37,9 +38,10 @@ async function revealAnswer(e) {
     const json = await response.json()
 
     results.value = json
+    mashupAnswer.value = json.mashup.answer
     correctAnswers.value = json.answers
     isGameWon.value = json.correct
-    formMessage.value = json.message
+    formMessage.value = 'Better luck next time!'
   } catch (err) {
     console.error(err)
   }
@@ -63,6 +65,7 @@ async function submit(e) {
     const json = await response.json()
 
     results.value = json
+    mashupAnswer.value = json.mashup.answer
     correctAnswers.value = json.answers
     isGameWon.value = json.correct
     formMessage.value = json.message
@@ -241,6 +244,8 @@ button[name="hints"] {
         <HeadingComponent>
           <p>{{ formMessage }}</p>
         </HeadingComponent>
+        <p>The answer is:</p>
+        <p><strong>{{ mashupAnswer }}</strong></p>
         <div class="btn-group">
           <a href="/game" class="btn btn-primary">Play Again</a>
         </div>

@@ -23,6 +23,14 @@ export default async (req: Request, context: Context) => {
     if (movieMashupRefError) throw new Error(movieMashupRefError.message)
     if (!movieMashupRef) throw new Error('No mashups found')
 
+    // get mashup data
+    let {data: mashupData, error: mashupError} = await supabase
+    .from('Mashups')
+    .select()
+    .eq('id', mashupId)
+
+    if (mashupError) throw new Error(mashupError.message)
+
     const movieIds = movieMashupRef.map(item => item.movie_id)
 
     let {data: movieData, error: movieError} = await supabase
@@ -47,6 +55,7 @@ export default async (req: Request, context: Context) => {
         correct: true, 
         message: 'You got it!',
         answers: [movieAnswer1, movieAnswer2],
+        mashup: mashupData[0],
         movies: [
           movieData[0],
           movieData[1],
