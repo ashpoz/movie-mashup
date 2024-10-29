@@ -19,7 +19,7 @@ export default async (req: Request, context: Context) => {
     }
   };
 
-  const searchMovie = await fetch(`https://api.themoviedb.org/3/search/movie?query=${decodeURIComponent(query)}&include_adult=false&language=en-US&page=1`, options);
+  const searchMovie = await fetch(`https://api.themoviedb.org/3/search/movie?query=${decodeURIComponent(query)}&include_adult=false&language=en-US&page=1&region="US"`, options);
 
   try {
     const data = searchMovie.json();
@@ -28,7 +28,16 @@ export default async (req: Request, context: Context) => {
     const movies = results.map((item: MovieResult) => (
       { id: item.id, title: item.title, release_date: item.release_date, poster_path: item.poster_path }
     ))
-    return Response.json(movies);
+
+    const removeDuplicateTitles = (array: Array<MovieResult>) => {
+      return array.filter((value, index, self) =>
+        index === self.findIndex((item) => (
+          item.title === value.title
+        ))
+      )
+    }
+
+    return Response.json(removeDuplicateTitles(movies));
   } catch (err) {
     Response.json(JSON.stringify(err));
   }
