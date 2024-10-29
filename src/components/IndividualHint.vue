@@ -17,15 +17,12 @@ watch(hints, (newHints) => {
 
   if (currentHint.value === 1) {
     years.value = newHints[0]
-    console.log(years.value)
   }
   if (currentHint.value === 2) {
     credits.value = newHints[1]
-    console.log(credits.value)
   }
   if (currentHint.value === 3) {
     sharedWord.value = newHints[2]
-    console.log(sharedWord.value)
   }
 
 },  
@@ -34,8 +31,6 @@ watch(hints, (newHints) => {
 
 function formatArrAsList(arr) {
   if (!arr) return 
-
-  console.log(arr.length)
 
   if (arr.length > 1) {
     let str = arr.join(',')

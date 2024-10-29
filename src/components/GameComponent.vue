@@ -29,6 +29,7 @@ watch(isGameWon, async () => {
   posterImages.value[0] = getPosterData(results.value.movies[0])
   posterImages.value[1] = getPosterData(results.value.movies[1])
   showWin.value = true
+  mashupAnswer.value = results.value.mashup.answer
 })
 
 async function revealAnswer(e) {
@@ -60,12 +61,12 @@ async function submit(e) {
   const movies = [encodeURIComponent(movie1), encodeURIComponent(movie2)]
   const mashup = formValues.find((val) => val.inputName === 'mashupId').value
 
+
   try {
     const response = await fetch(`/.netlify/functions/submit-answer?answer=${movies}&mashup=${mashup}`);
     const json = await response.json()
 
     results.value = json
-    mashupAnswer.value = json.mashup.answer
     correctAnswers.value = json.answers
     isGameWon.value = json.correct
     formMessage.value = json.message
@@ -158,6 +159,7 @@ button[name="hints"] {
 #gameWon {
   align-items: center;
   display: grid;
+  row-gap: 5rem;
 }
 
 @media (min-width: 768px) {

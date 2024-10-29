@@ -9,7 +9,7 @@ export default async (req: Request, context: Context) => {
 
   const answerParam = new URL(req.url).searchParams.get('answer');
   const mashupParam = new URL(req.url).searchParams.get('mashup');
-  const answers = answerParam ? decodeURIComponent(answerParam).split(',') : [];
+  const answers = answerParam ? decodeURIComponent(answerParam).split(',') : [null, null];
   const mashupId = mashupParam ? mashupParam : null;
 
   try {
@@ -30,6 +30,7 @@ export default async (req: Request, context: Context) => {
     .eq('id', mashupId)
 
     if (mashupError) throw new Error(mashupError.message)
+    if (!mashupData) throw new Error('Mashup is empty')
 
     const movieIds = movieMashupRef.map(item => item.movie_id)
 
@@ -37,17 +38,19 @@ export default async (req: Request, context: Context) => {
     .from('Movies')
     .select()
     .in('id', movieIds)
+
     
     if (movieError) throw new Error(movieError.message)
     if (!movieMashupRef || !movieData) throw new Error('Data is empty')
+
 
     movieData.sort((a, b) => movieIds.indexOf(a.id) - movieIds.indexOf(b.id))
 
     const movieAnswer1 = validateAnswer(movieData[0].title, answers[0])
     const movieAnswer2 = validateAnswer(movieData[1].title, answers[1])
 
+    // both correct
     if (movieAnswer1 && movieAnswer2) {
-      console.log('both correct')
       const movieTmdbIds = movieData.map(movie => movie.tmdb_id).filter(id => id)
       const getTmdbDetails = await Promise.all(movieTmdbIds.map(async (id) => await getMovieDetails(id)))
 
@@ -68,6 +71,7 @@ export default async (req: Request, context: Context) => {
 
       return Response.json(movieJson)
   
+    // 1st answer is correct
     } else if (movieAnswer1) {
       const movieJson = {
         correct: false, 
@@ -77,6 +81,7 @@ export default async (req: Request, context: Context) => {
 
       return Response.json(movieJson)
 
+    // 2nd answer is correct
     } else if (movieAnswer2) {
       const movieJson = {
         correct: false, 
@@ -86,6 +91,7 @@ export default async (req: Request, context: Context) => {
 
       return Response.json(movieJson)
 
+    // Neither are correct
     } else {
       const movieJson = {
         correct: false, 
